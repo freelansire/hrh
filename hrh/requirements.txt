@@ -8,3 +8,4 @@ googlemaps
 Pillow
 tesseract
 deep_translator
+geopy
