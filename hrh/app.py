@@ -5,6 +5,7 @@ import pytesseract
 from googletrans import Translator
 from deep_translator import GoogleTranslator
 from sklearn.cluster import KMeans
+import requests
 
 
 
@@ -18,29 +19,35 @@ st.write("AI solutions for labeling, warehousing, and logistics.")
 
 
 
-# Explicitly define the path for Streamlit Cloud
-pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+API_KEY = "helloworld"  # Free tier API key (you can register for a better one)
 
-print("Tesseract Path:", pytesseract.pytesseract.tesseract_cmd) 
-translator = Translator()
-
-if option == "Automated Labeling and Translation":
-    st.header("AI-Powered Labeling System")
+def extract_text_from_image(image):
+    url = "https://api.ocr.space/parse/image"
+    payload = {
+        "apikey": API_KEY,
+        "language": "eng",
+        "isOverlayRequired": False
+    }
+    files = {"file": image}
     
-    uploaded_file = st.file_uploader("Upload a Product Image", type=["jpg", "png", "jpeg"])
+    response = requests.post(url, files=files, data=payload)
+    result = response.json()
     
-    if uploaded_file:
-        image = Image.open(uploaded_file)
-        st.image(image, caption="Uploaded Image", use_container_width=True)
-        
-        # Extract text using OCR
-        extracted_label = pytesseract.image_to_string(image)
-        st.success(f"Extracted Label: {extracted_label}")
+    if "ParsedResults" in result:
+        return result["ParsedResults"][0]["ParsedText"]
+    else:
+        return "Error: Could not extract text."
 
-        # Translate text using deep_translator
-        target_language = st.selectbox("Select Target Language", ["es", "fr", "de", "zh"])
-        translated_label = GoogleTranslator(source="auto", target=target_language).translate(extracted_label)
-        st.info(f"Translated Label: {translated_label}")
+# Streamlit UI
+st.title("OCR Label Extraction")
+uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+
+if uploaded_file is not None:
+    st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+    extracted_text = extract_text_from_image(uploaded_file)
+    st.write("Extracted Text:", extracted_text)
+
+
 
 
 elif option == "Warehousing Optimization":
