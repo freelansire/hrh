@@ -3,7 +3,6 @@ import numpy as np
 from PIL import Image
 import pytesseract
 from googletrans import Translator
-from deep_translator import GoogleTranslator
 from sklearn.cluster import KMeans
 
 
