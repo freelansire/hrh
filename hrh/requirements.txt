@@ -7,3 +7,4 @@ scikit-learn
 googlemaps
 Pillow
 tesseract
+deep_translator
