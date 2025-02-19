@@ -9,5 +9,4 @@ Pillow
 tesseract
 deep_translator
 geopy
-tesseract-ocr
-tesseract-ocr-eng
+
