@@ -19,8 +19,9 @@ st.write("AI solutions for labeling, warehousing, and logistics.")
 
 
 
-API_KEY = "helloworld"  # Free tier API key (you can register for a better one)
+API_KEY = "helloworld"  # Free tier OCR.space API key
 
+# Function to extract text from image using OCR.space API
 def extract_text_from_image(image):
     url = "https://api.ocr.space/parse/image"
     payload = {
@@ -38,15 +39,35 @@ def extract_text_from_image(image):
     else:
         return "Error: Could not extract text."
 
+# Function to translate text
+def translate_text(text, target_language):
+    translator = GoogleTranslator(source="auto", target=target_language)
+    return translator.translate(text)
+
 # Streamlit UI
-st.title("OCR Label Extraction")
+st.title("AI-Powered OCR & Translation System")
 uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
+
+# Language selection
+languages = {
+    "French": "fr",
+    "Spanish": "es",
+    "German": "de",
+    "Italian": "it",
+}
+selected_language = st.selectbox("Select Target Language", list(languages.keys()))
 
 if uploaded_file is not None:
     st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+    
     extracted_text = extract_text_from_image(uploaded_file)
-    st.write("Extracted Text:", extracted_text)
+    st.subheader("Extracted Text:")
+    st.write(extracted_text)
 
+    if extracted_text and extracted_text != "Error: Could not extract text.":
+        translated_text = translate_text(extracted_text, languages[selected_language])
+        st.subheader("Translated Text:")
+        st.write(translated_text)
 
 
 
