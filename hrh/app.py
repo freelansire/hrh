@@ -88,40 +88,32 @@ elif option == "Warehousing Optimization":
         st.warning("Short shelf-life perishables should be in High Rotation Area.")
 
 # 🟢 **3️⃣ Logistics Route Planning**
-
-# Initialize Google Maps API
-gmaps = googlemaps.Client(key="AIzaSyD5u__9Aq77-7q4hrGp3glsxbfmuLZRXGY")
-
-
-if option == "Logistics Route Planning":
+elif option == "Logistics Route Planning":
     st.header("AI-Based Logistics Route Optimization")
     
-   origin = st.text_input("Enter Origin (e.g., London)")
+    origin = st.text_input("Enter Origin (e.g., London)")
     destination = st.text_input("Enter Destination (e.g., Dublin)")
 
     if st.button("Find Best Route"):
         try:
-            # Get driving route using Google Maps API
+            gmaps = googlemaps.Client(key=st.secrets["GOOGLE_API_KEY"])  # Secure API key
             directions = gmaps.directions(origin, destination, mode="driving")
             route = directions[0]["legs"][0]
 
-            # Fetch the road-based route details
+            # Road-Based Route
             distance = route["distance"]["text"]
             duration = route["duration"]["text"]
             start_address = route["start_address"]
             end_address = route["end_address"]
 
-            # For shipping, calculate the maritime route (e.g., using geodesic)
-            # Using approximate coordinates for ports (this would need real data)
-            origin_coords = (40.7128, -74.0060)  # Example: Port of New York
-            dest_coords = (34.0522, -118.2437)   # Example: Port of Los Angeles
+            # Approximate maritime route (Needs real shipping API)
+            origin_coords = (51.5074, -0.1278)  # London
+            dest_coords = (53.3498, -6.2603)    # Dublin
             shipping_distance = geodesic(origin_coords, dest_coords).kilometers
 
-            st.success(f"Optimal Route: {start_address} → {end_address}")
+            st.success(f"Optimal Route: **{start_address} → {end_address}**")
             st.info(f"Road Distance: {distance} | Estimated Time: {duration}")
-            st.info(f"Shipping Distance (via sea): {shipping_distance:.2f} km")
-
-            # For actual shipping lane data, integrate MarineTraffic API or other data sources here
+            st.info(f"Approximate Maritime Distance: {shipping_distance:.2f} km")
 
         except Exception as e:
-            st.error(f"Error: {str(e)}")		
+            st.error(f"Error: {str(e)}")
