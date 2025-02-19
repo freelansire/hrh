@@ -93,7 +93,7 @@ elif option == "Warehousing Optimization":
 gmaps = googlemaps.Client(key="AIzaSyD5u__9Aq77-7q4hrGp3glsxbfmuLZRXGY")
 
 
-elif option == "Logistics Route Planning":
+if option == "Logistics Route Planning":
     st.header("AI-Based Logistics Route Optimization")
     
    origin = st.text_input("Enter Origin (e.g., London)")
