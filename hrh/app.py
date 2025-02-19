@@ -45,7 +45,7 @@ def translate_text(text, target_language):
     return translator.translate(text)
 
 # Streamlit UI
-st.title("AI-Powered OCR & Translation System")
+if st.title("AI-Based Labelling and Transalation")
 uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 
 # Language selection
