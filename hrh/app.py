@@ -41,7 +41,7 @@ if option == "Automated Labeling and Translation":
     selected_language = st.selectbox("Select Target Language", list(languages.keys()))
 
     if uploaded_file:
-        st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+        st.image(uploaded_file, caption="Uploaded Image", use_container_width=True)
         
         extracted_text = extract_text_from_image(uploaded_file)
         st.subheader("Extracted Text:")
