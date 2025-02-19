@@ -18,9 +18,10 @@ st.write("AI solutions for labeling, warehousing, and logistics.")
 
 
 
-# Configure Tesseract (for Optical Character Recognition - OCR)
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"  # Change this path if necessary
+# Explicitly define the path for Streamlit Cloud
+pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
 
+print("Tesseract Path:", pytesseract.pytesseract.tesseract_cmd) 
 translator = Translator()
 
 if option == "Automated Labeling and Translation":
